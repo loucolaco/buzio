@@ -160,7 +160,7 @@
         .dark-section .story-text h2 { color: var(--secondary); }
         .dark-section .story-text p { color: rgba(255,255,255,0.8); }
 
-        /* MENU UPGRADE (RESPONSIVE) */
+        /* MENU UPGRADE (RESPONSIVE GRID) */
         .menu-wrapper { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 500px), 1fr)); 
@@ -176,9 +176,9 @@
         .menu-dots { flex-grow: 1; border-bottom: 1px dotted rgba(15, 26, 28, 0.3); }
         .menu-desc { font-size: 1rem; font-style: italic; color: #666; margin-top: 0.5rem; display: block; max-width: 90%; line-height: 1.5; }
 
-        /* VISUAL PAUSES (JPGs) */
+        /* VISUAL BREAKS */
         .menu-visual-break { width: 100%; aspect-ratio: 16/9; background: #F2EDE4; margin: 3rem 0; overflow: hidden; border: 1px solid rgba(177, 148, 95, 0.1); }
-        .menu-visual-break img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .menu-visual-break img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 1.5s; }
 
         /* ESPECIALIDADES */
         .highlight-card { 
@@ -195,7 +195,7 @@
         .viv-item { padding: 5rem 2.5rem; border: 1px solid rgba(177, 148, 95, 0.15); text-align: center; transition: 0.5s; background: rgba(255,255,255,0.4); }
         .viv-item h3 { color: var(--secondary); font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem; }
 
-        /* OCEAN VIEW QUOTE */
+        /* OCEAN VIEW */
         .ocean-view { 
             height: 70vh; background: linear-gradient(rgba(12,21,23,0.65), rgba(12,21,23,0.65)), url('praia.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
@@ -206,7 +206,7 @@
         .tel-link { font-family: var(--font-display); font-size: clamp(2.5rem, 8vw, 5rem); color: var(--primary); display: block; margin: 2.5rem 0; font-weight: 700; transition: 0.4s; }
         .tel-link:hover { color: var(--secondary); }
 
-        /* RODAPÉ FULL */
+        /* FOOTER */
         footer { background: var(--primary); color: var(--white); padding: 10rem 8% 5rem; text-align: center; border-top: 1px solid var(--secondary); }
         .footer-logo { font-family: var(--font-display); font-size: clamp(3.5rem, 10vw, 7rem); color: var(--secondary); letter-spacing: 1.5rem; margin-bottom: 6rem; display: block; font-weight: 700; text-transform: uppercase; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 5rem; max-width: 1400px; margin: 0 auto; text-align: center; }
@@ -264,7 +264,7 @@
                 <span class="label lang-pt" style="text-align: left;">Sessenta Anos de História</span>
                 <span class="label lang-en" style="text-align: left;">Sixty Years of History</span>
                 <h2 class="lang-pt">Onde a Frescura é Sagrada.</h2><h2 class="lang-en">Where Freshness is Sacred.</h2>
-                <p class="lang-pt">Fundado em 1959, o Buzio tornou-se um santuário para os amantes do mar. O que começou como um pequeno refúgio na Praia das Maçãs, transformou-se num destino gastronómico onde o rigor e a hospitalidade são passados de geração em geração.</p>
+                <p class="lang-pt">Fundado in 1959, o Buzio tornou-se um santuário para os amantes do mar. O que começou como um pequeno refúgio na Praia das Maçãs, transformou-se num destino gastronómico onde o rigor e a hospitalidade são passados de geração em geração.</p>
                 <p class="lang-en">Founded in 1959, Buzio has become a sanctuary for sea lovers. What started as a small refuge at Praia das Maçãs, has transformed into a gastronomic destination where rigor and hospitality are passed down through generations.</p>
                 <p class="lang-pt">Aqui, cada prato conta uma história de respeito pelas marés e paixão pela cozinha clássica portuguesa.</p>
                 <p class="lang-en">Here, every dish tells a story of respect for the tides and passion for classic Portuguese cuisine.</p>
@@ -298,7 +298,6 @@
                     <div class="menu-header"><span class="menu-title lang-pt">Amêijoas à Bulhão Pato</span><span class="menu-title lang-en">Clams Bulhão Pato</span><div class="menu-dots"></div></div>
                     <span class="menu-desc lang-pt">Azeite virgem, alho, coentros frescos e limão.</span><span class="menu-desc lang-en">Virgin olive oil, garlic, fresh coriander and lemon.</span>
                 </div>
-                <div class="menu-visual-break"><img src="entrada1.jpg" alt="Entradas"></div>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Gambas à Aguillo</span><span class="menu-title lang-en">Garlic Prawns</span><div class="menu-dots"></div></div>
                     <span class="menu-desc lang-pt">Salteadas com alho laminado e malagueta.</span><span class="menu-desc lang-en">Sautéed with sliced garlic and chili.</span>
@@ -336,9 +335,10 @@
                     <div class="menu-header"><span class="menu-title lang-pt">Tarte de Amêndoa Buzio</span><span class="menu-title lang-en">Buzio Almond Tart</span><div class="menu-dots"></div></div>
                     <span class="menu-desc lang-pt">A receita secreta que atravessa gerações.</span><span class="menu-desc lang-en">The secret recipe passed through generations.</span>
                 </div>
-                <div class="menu-visual-break"><img src="sobremesa.jpg" alt="Doces"></div>
+                <div class="menu-visual-break"><img src="sobre.jpg" alt="Doces"></div>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Leite Creme Queimado</span><span class="menu-title lang-en">Burnt Custard</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Queimado na hora com ferro quente.</span><span class="menu-desc lang-en">Burnt to order with a hot iron.</span>
                 </div>
             </div>
 
