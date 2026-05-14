@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzio — Desde 1959 | Tradição de Gerações na Praia das Maçãs</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0F1A1C;      
+            --secondary: #B1945F;    
+            --bg-canvas: #FAF8F5;    
+            --text-dark: #1B2A2F;
+            --white: #FFFFFF;
+            --font-display: 'Playfair Display', serif;
+            --font-sub: 'Cormorant Garamond', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-canvas); color: var(--text-dark); font-family: var(--font-body); line-height: 1.8; overflow-x: hidden; }
+
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.03; pointer-events: none; z-index: 10000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* Multi-language Logic */
+        .lang-en { display: none !important; }
+        body.mode-en .lang-pt { display: none !important; }
+        body.mode-en .lang-en { display: block !important; }
+        body.mode-en span.lang-en, body.mode-en a.lang-en, body.mode-en strong.lang-en { display: inline-block !important; }
+        
+        .lang-tool {
+            position: fixed; bottom: 30px; left: 30px; z-index: 2000;
+            background: var(--primary); border: 1px solid var(--secondary);
+            display: flex; gap: 5px; padding: 5px; border-radius: 50px;
+        }
+        .lang-btn {
+            background: none; border: none; color: var(--white); font-family: var(--font-body);
+            font-size: 0.7rem; letter-spacing: 0.1rem; padding: 8px 15px; cursor: pointer;
+            border-radius: 20px; transition: 0.3s; text-transform: uppercase;
+        }
+        .lang-btn.active { background: var(--secondary); color: var(--primary); font-weight: 700; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 2.5rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: var(--transition);
+        }
+        nav.scrolled { background: rgba(15, 26, 28, 0.98); padding: 1.2rem 4rem; backdrop-filter: blur(10px); }
+        .logo { font-family: var(--font-display); font-size: 2.2rem; letter-spacing: 0.5rem; color: var(--secondary); font-weight: 700; line-height: 1; }
+        .logo-tagline { font-family: var(--font-sub); font-size: 0.75rem; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.3rem; display: block; margin-top: 0.5rem; }
+        
+        .nav-links { display: flex; gap: 3.5rem; align-items: center; text-transform: uppercase; font-size: 0.75rem; color: var(--white); letter-spacing: 0.2rem; }
+        .nav-links a:hover { color: var(--secondary); }
+        .btn-call-nav { border: 1px solid var(--secondary); padding: 0.9rem 2.2rem; color: var(--secondary); font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.2rem; }
+        .btn-call-nav:hover { background: var(--secondary); color: var(--primary); }
+
+        #hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;
+            color: var(--white); position: relative; overflow: hidden; background: #0F1A1C;
+        }
+        #hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 1; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.6; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(0deg, rgba(15,26,28,0.8) 0%, rgba(15,26,28,0.2) 100%); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; padding: 0 5%; }
+        #hero h1 { font-size: clamp(3.5rem, 9vw, 7rem); line-height: 1.1; margin-bottom: 2.5rem; font-family: var(--font-display); }
+        .hero-tag { font-family: var(--font-sub); font-style: italic; color: var(--secondary); font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+        #hero p { font-family: var(--font-sub); font-size: 1.8rem; max-width: 900px; margin: 0 auto; font-style: italic; opacity: 0.9; }
+
+        section { padding: 10rem 10%; opacity: 0; transform: translateY(60px); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        section.reveal { opacity: 1; transform: translateY(0); }
+        .label { font-size: 0.85rem; letter-spacing: 0.5rem; text-transform: uppercase; color: var(--secondary); margin-bottom: 3rem; display: block; font-weight: 700; text-align: center;}
+
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: center; }
+        .story-text h2 { font-size: 4rem; margin-bottom: 2.5rem; color: var(--primary); font-family: var(--font-display); line-height: 1.1; }
+        .story-text p { font-size: 1.2rem; margin-bottom: 1.5rem; color: #444; }
+        .img-frame { width: 100%; aspect-ratio: 4/5; border: 1px solid rgba(177, 148, 95, 0.2); overflow: hidden; }
+        .img-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        #legacy { background: #0F1A1C; color: var(--white); }
+        .legacy-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 6rem; align-items: center; }
+        .legacy-img { width: 100%; aspect-ratio: 1/1; border: 1px solid var(--secondary); overflow: hidden; }
+        .legacy-img img { width: 100%; height: 100%; object-fit: cover; }
+        .legacy-text h2 { font-family: var(--font-display); font-size: 3.5rem; color: var(--secondary); margin-bottom: 2rem; }
+        .legacy-text p { font-family: var(--font-sub); font-size: 1.4rem; font-style: italic; opacity: 0.9; margin-bottom: 2rem; line-height: 1.6; }
+
+        #menu { background: var(--white); }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem 8rem; }
+        .menu-category h3 { font-size: 2.8rem; color: var(--primary); margin-bottom: 3rem; font-family: var(--font-display); border-bottom: 1px solid var(--secondary); padding-bottom: 0.8rem; }
+        .menu-item { margin-bottom: 2.2rem; }
+        .menu-header { display: flex; justify-content: space-between; align-items: baseline; }
+        .menu-title { font-family: var(--font-sub); font-size: 1.6rem; font-weight: 600; color: var(--primary); }
+        .menu-dots { flex-grow: 1; border-bottom: 1px dotted #D1C7B7; margin: 0 12px; opacity: 0.5; }
+        .menu-desc { font-size: 1rem; font-style: italic; color: #666; margin-top: 0.3rem; }
+        
+        .menu-visual-break { width: 100%; aspect-ratio: 16/7; background: #F2EDE4; margin: 4rem 0; overflow: hidden; border: 1px solid #E2DDD3; }
+        .menu-visual-break img { width: 100%; height: 100%; object-fit: cover; }
+
+        .highlight-card { background: var(--primary); color: var(--white); padding: 6rem; grid-column: span 2; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: center; margin: 6rem 0; }
+        .highlight-card h3 { color: var(--secondary); font-size: 3.5rem; margin-bottom: 2.5rem; font-family: var(--font-display); }
+        .peixe-dia-box { border: 1px solid rgba(177, 148, 95, 0.4); padding: 4rem 2rem; text-align: center; }
+
+        #viveiros { background: var(--primary); color: var(--white); text-align: center; }
+        .viv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; margin-top: 6rem; }
+        .viv-item { padding: 4rem 2.5rem; border: 1px solid rgba(177, 148, 95, 0.15); }
+        .viv-item h3 { color: var(--secondary); font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem; }
+
+        .ocean-view { 
+            height: 70vh; 
+            background: linear-gradient(rgba(12, 21, 23, 0.6), rgba(12, 21, 23, 0.6)), url('praia.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--secondary); font-family: var(--font-sub); font-style: italic; font-size: 2.8rem; 
+            text-align: center; border-top: 1px solid var(--secondary); padding: 0 10%;
+        }
+
+        #booking { background: white; text-align: center; padding: 12rem 10% 6rem; }
+        .tel-link { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--primary); display: block; margin: 2rem 0; font-weight: 700; letter-spacing: -0.02em; }
+        
+        #location { background: #FAF8F5; padding: 6rem 10% 10rem; }
+
+        footer { background: var(--primary); color: var(--white); padding: 10rem 10% 5rem; text-align: center; }
+        .footer-logo { font-size: 4rem; color: var(--secondary); letter-spacing: 1rem; margin-bottom: 1rem; display: block; font-family: var(--font-display); }
+        .footer-tagline { font-family: var(--font-sub); font-style: italic; font-size: 1.4rem; color: var(--secondary); opacity: 0.8; margin-bottom: 4rem; display: block; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; max-width: 1200px; margin: 0 auto; border-top: 1px solid rgba(177, 148, 95, 0.1); padding-top: 4rem; }
+        .footer-col h4 { color: var(--secondary); text-transform: uppercase; letter-spacing: 0.2rem; font-size: 0.8rem; margin-bottom: 1.5rem; }
+        .social-links { display: flex; justify-content: center; gap: 2rem; margin-top: 4rem; }
+        .social-links a { color: var(--secondary); font-family: var(--font-sub); font-style: italic; font-size: 1.2rem; }
+
+        @media (max-width: 1024px) {
+            .menu-grid, .story-grid, .legacy-grid, .highlight-card, .footer-grid { grid-template-columns: 1fr; }
+            .viv-grid { grid-template-columns: 1fr; }
+            nav { padding: 1.5rem 2rem; }
+            .nav-links, .btn-call-nav { display: none; }
+            .ocean-view { background-attachment: scroll; font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body class="mode-pt">
+
+    <div class="lang-tool">
+        <button id="btn-pt" class="lang-btn active" onclick="setLang('pt')">PT</button>
+        <button id="btn-en" class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo-box">
+            <span class="logo">BUZIO</span>
+            <span class="logo-tagline lang-pt">Restaurante & Marisqueira</span>
+            <span class="logo-tagline lang-en">Seafood Restaurant</span>
+        </div>
+        <div class="nav-links">
+            <a href="#history" class="lang-pt">História</a><a href="#history" class="lang-en">History</a>
+            <a href="#legacy" class="lang-pt">Herança</a><a href="#legacy" class="lang-en">Legacy</a>
+            <a href="#menu" class="lang-pt">A Carta</a><a href="#menu" class="lang-en">Menu</a>
+            <a href="#location" class="lang-pt">Localização</a><a href="#location" class="lang-en">Location</a>
+        </div>
+        <a href="tel:+351219292123" class="btn-call-nav lang-pt">Ligar para Reservar</a>
+        <a href="tel:+351219292123" class="btn-call-nav lang-en">Call for Reservation</a>
+    </nav>
+
+    <section id="hero" style="opacity: 1; transform: none; padding: 0;">
+        <video autoplay muted loop playsinline id="heroVideo">
+            <source src="veo.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tag lang-pt">Praia das Maçãs · Desde 1959</span>
+            <span class="hero-tag lang-en">Praia das Maçãs · Since 1959</span>
+            <h1 class="lang-pt">A Alma do Mar,<br>Servida com Tradição.</h1>
+            <h1 class="lang-en">The Soul of the Sea,<br>Served with Tradition.</h1>
+            <p class="lang-pt">Onde o tempo abranda e o Atlântico se senta à mesa.</p>
+            <p class="lang-en">Where time slows down and the Atlantic joins the table.</p>
+        </div>
+    </section>
+
+    <section id="history">
+        <div class="story-grid">
+            <div class="story-text">
+                <span class="label lang-pt" style="text-align: left;">Crónica de Sabores</span>
+                <span class="label lang-en" style="text-align: left;">A Chronicle of Flavors</span>
+                <h2 class="lang-pt">Sessenta Anos de Paixão Pelo Mar.</h2>
+                <h2 class="lang-en">Sixty Years of Passion for the Sea.</h2>
+                <p class="lang-pt">O Buzio não é apenas um restaurante; é um marco vivo na Praia das Maçãs. Desde 1959, as nossas portas abrem-se para receber quem procura a pureza dos sabores do Atlântico, num compromisso inabalável com a frescura e o rigor.</p>
+                <p class="lang-en">Buzio is not just a restaurant; it's a living landmark in Praia das Maçãs. Since 1959, our doors have opened to welcome those seeking the purity of Atlantic flavors, with an unwavering commitment to freshness and excellence.</p>
+                <p class="lang-pt">Nascido do sonho de servir o melhor que a costa portuguesa oferece, atravessámos décadas mantendo o ritual do serviço clássico e a hospitalidade que nos caracteriza como um refúgio para os amantes da boa mesa.</p>
+                <p class="lang-en">Born from the dream of serving the best that the Portuguese coast offers, we have crossed decades maintaining the ritual of classic service and the hospitality that defines us as a sanctuary for fine food lovers.</p>
+            </div>
+            <div class="img-frame">
+                <img src="buzio1.jpg" alt="A História do Buzio">
+            </div>
+        </div>
+    </section>
+
+    <section id="legacy">
+        <div class="legacy-grid">
+            <div class="legacy-img">
+                <img src="quatrogeracoes.jpg" alt="Quatro Gerações Buzio">
+            </div>
+            <div class="legacy-text">
+                <span class="label lang-pt" style="text-align: left; color: var(--secondary);">Herança Familiar</span>
+                <span class="label lang-en" style="text-align: left; color: var(--secondary);">Family Heritage</span>
+                <h2 class="lang-pt">Quatro Gerações, Uma Única Alma.</h2>
+                <h2 class="lang-en">Four Generations, One Single Soul.</h2>
+                <p class="lang-pt">A história do Buzio escreve-se em família. Ao longo de mais de meio século, o conhecimento sobre as marés e o segredo da cozinha foram transmitidos como um bem precioso.</p>
+                <p class="lang-en">The history of Buzio is written in family. Over more than half a century, knowledge of the tides and kitchen secrets have been passed down like a precious treasure.</p>
+                <p class="lang-pt">Hoje, a quarta geração assume o leme, preservando os métodos artesanais e o respeito absoluto pelo produto. É esta linhagem que garante que, em cada prato, se sinta a continuidade de uma dedicação que o tempo não apaga.</p>
+                <p class="lang-en">Today, the fourth generation takes the helm, preserving artisanal methods and absolute respect for the product. It is this lineage that ensures every dish reflects the continuity of a dedication that time cannot erase.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <span class="label lang-pt">A Nossa Carta Integral</span>
+        <span class="label lang-en">Our Full Menu</span>
+        <div class="menu-grid">
+            
+            <div class="menu-category">
+                <h3 class="lang-pt">Entradas de Mar</h3><h3 class="lang-en">Sea Starters</h3>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Amêijoas à Bulhão Pato</span><span class="menu-title lang-en">Clams "Bulhão Pato" Style</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Azeite virgem, alho, coentros frescos e limão.</span><span class="menu-desc lang-en">Virgin olive oil, garlic, fresh coriander and lemon.</span>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Gambas à Aguillo</span><span class="menu-title lang-en">Garlic Prawns</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Salteadas com alho e um leve toque picante.</span><span class="menu-desc lang-en">Sautéed with garlic and a light spicy touch.</span>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Ostras Naturais</span><span class="menu-title lang-en">Natural Oysters</span><div class="menu-dots"></div></div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3 class="lang-pt">Mariscos Vivos</h3><h3 class="lang-en">Live Shellfish</h3>
+                <div class="menu-visual-break"><img src="viveiros.jpg" alt="Viveiros"></div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Lagosta & Lavagante</span><span class="menu-title lang-en">Lobster & European Lobster</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Selecionados nos viveiros próprios, grelhados ou ao natural.</span><span class="menu-desc lang-en">Selected from our own tanks, grilled or natural.</span>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Sapateira Recheada</span><span class="menu-title lang-en">Stuffed Edible Crab</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">A receita histórica e artesanal da casa.</span><span class="menu-desc lang-en">The house's historical and artisanal recipe.</span>
+                </div>
+                <div class="menu-item"><div class="menu-header"><span class="menu-title lang-pt">Bruxas de Cascais</span><span class="menu-title lang-en">Velvet Swimmer Crabs</span><div class="menu-dots"></div></div></div>
+                <div class="menu-item"><div class="menu-header"><span class="menu-title lang-pt">Percebes da Nossa Costa</span><span class="menu-title lang-en">Goose Barnacles</span><div class="menu-dots"></div></div></div>
+            </div>
+
+            <div class="highlight-card">
+                <div>
+                    <span class="label lang-pt" style="color: var(--secondary); text-align: left;">Assinatura</span><span class="label lang-en" style="color: var(--secondary); text-align: left;">Signature</span>
+                    <h3 class="lang-pt">Especialidades</h3><h3 class="lang-en">Specialties</h3>
+                    <div class="menu-item">
+                        <span class="menu-title lang-pt" style="color: var(--secondary); font-size: 2rem;">Frigideira do Chefe</span>
+                        <span class="menu-title lang-en" style="color: var(--secondary); font-size: 2rem;">Chef's Skillet</span>
+                        <p class="lang-pt" style="opacity: 0.8; margin-top: 0.5rem;">A nossa seleção premium de mariscos salteados com os segredos da herança Buzio.</p>
+                        <p class="lang-en" style="opacity: 0.8; margin-top: 0.5rem;">Our premium selection of sautéed shellfish with the secrets of the Buzio heritage.</p>
+                    </div>
+                    <div class="menu-item"><span class="menu-title lang-pt">Arroz de Marisco Rico</span><span class="menu-title lang-en">Rich Seafood Rice</span></div>
+                    <div class="menu-item"><span class="menu-title lang-pt">Cataplana de Peixe e Marisco</span><span class="menu-title lang-en">Fish and Seafood Cataplana</span></div>
+                    <div class="menu-item"><span class="menu-title lang-pt">Polvo à Lagareiro</span><span class="menu-title lang-en">Octopus "Lagareiro" Style</span></div>
+                </div>
+                <div class="peixe-dia-box">
+                    <h4 class="lang-pt" style="font-family: var(--font-display); font-size: 2.2rem; margin-bottom: 2rem;">Peixe do Dia</h4>
+                    <h4 class="lang-en" style="font-family: var(--font-display); font-size: 2.2rem; margin-bottom: 2rem;">Fresh Fish of the Day</h4>
+                    <ul class="lang-pt" style="list-style: none; font-size: 1.2rem;"><li>• Robalo Selvagem</li><li>• Linguado de Mar</li><li>• Dourada Real</li></ul>
+                    <ul class="lang-en" style="list-style: none; font-size: 1.2rem;"><li>• Wild Sea Bass</li><li>• Sea Sole</li><li>• Royal Sea Bream</li></ul>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3 class="lang-pt">Doçaria</h3><h3 class="lang-en">Sweets</h3>
+                <div class="menu-visual-break"><img src="sobre.jpg" alt="Sobremesas"></div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Tarte de Amêndoa Buzio</span><span class="menu-title lang-en">Buzio Almond Tart</span><div class="menu-dots"></div></div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Leite Creme Queimado</span><span class="menu-title lang-en">Burnt Custard</span><div class="menu-dots"></div></div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h3 class="lang-pt">Vinhos</h3><h3 class="lang-en">Wines</h3>
+                <div class="menu-visual-break"><img src="vinho.jpg" alt="Vinhos"></div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Vinhos de Colares</span><span class="menu-title lang-en">Colares Wines</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">A raridade histórica dos vinhos de areia de Sintra.</span><span class="menu-desc lang-en">The historical rarity of Sintra's sand wines.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="viveiros">
+        <span class="label lang-pt">Compromisso</span><span class="label lang-en">Commitment</span>
+        <h2 class="lang-pt">Onde o Mar se Mantém Vivo.</h2><h2 class="lang-en">Where the Sea Stays Alive.</h2>
+        <div class="viv-grid">
+            <div class="viv-item">
+                <h3 class="lang-pt">Viveiros Próprios</h3><h3 class="lang-en">Own Tanks</h3>
+                <p class="lang-pt">Garantia de frescura absoluta e seleção rigorosa.</p>
+                <p class="lang-en">Guarantee of absolute freshness and rigorous selection.</p>
+            </div>
+            <div class="viv-item">
+                <h3 class="lang-pt">Costa Portuguesa</h3><h3 class="lang-en">Portuguese Coast</h3>
+                <p class="lang-pt">Peixe selvagem capturado por métodos sustentáveis.</p>
+                <p class="lang-en">Wild fish caught using sustainable methods.</p>
+            </div>
+            <div class="viv-item">
+                <h3 class="lang-pt">Legado Vivo</h3><h3 class="lang-en">Living Legacy</h3>
+                <p class="lang-pt">Mais de 65 anos de dedicação à Praia das Maçãs.</p>
+                <p class="lang-en">Over 65 years of dedication to Praia das Maçãs.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="ocean-view lang-pt" style="display: flex;">"Onde a Serra de Sintra encontra a imensidão do Atlântico."</div>
+    <div class="ocean-view lang-en" style="display: flex;">"Where the Sintra Mountains meet the vastness of the Atlantic."</div>
+
+    <section id="location">
+        <div class="story-grid">
+            <div class="story-text">
+                <span class="label lang-pt" style="text-align: left;">Geolocalização</span>
+                <span class="label lang-en" style="text-align: left;">Find Us</span>
+                <h2 class="lang-pt">Na Orla do Atlântico</h2><h2 class="lang-en">On the Atlantic Rim</h2>
+                <p>Av. Eugène Levy 56, 2705-306 Colares<br>Praia das Maçãs, Sintra</p>
+                <br>
+                <p class="lang-pt"><strong>Aberto todos os dias:</strong> 12:00 — 23:00</p>
+                <p class="lang-en"><strong>Open every day:</strong> 12:00 PM — 11:00 PM</p>
+                <br>
+                <a href="https://maps.google.com/?q=Restaurante+Buzio+Praia+das+Maças" target="_blank" class="btn-call-nav lang-pt" style="background: var(--primary); color: var(--secondary);">Abrir no Google Maps</a>
+                <a href="https://maps.google.com/?q=Restaurante+Buzio+Praia+das+Maças" target="_blank" class="btn-call-nav lang-en" style="background: var(--primary); color: var(--secondary);">Open Google Maps</a>
+            </div>
+            <a href="https://maps.google.com/?q=Restaurante+Buzio+Praia+das+Maças" target="_blank" class="img-frame">
+                <img src="maps.jpg" alt="Localização Mapa">
+            </a>
+        </div>
+    </section>
+
+    <section id="booking">
+        <span class="label lang-pt">Contacto</span><span class="label lang-en">Contact</span>
+        <h2 class="lang-pt">Reserva Antecipada</h2><h2 class="lang-en">Advance Reservation</h2>
+        <a href="tel:+351219292123" class="tel-link">+351 219 292 123</a>
+        <p>geral@buzio.pt</p>
+    </section>
+
+    <footer>
+        <span class="footer-logo">BUZIO</span>
+        <span class="footer-tagline lang-pt">Tradição Familiar desde 1959</span>
+        <span class="footer-tagline lang-en">Family Tradition since 1959</span>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="lang-pt">Localização</h4><h4 class="lang-en">Location</h4>
+                <p>Av. Eugène Levy 56, Sintra</p>
+            </div>
+            <div class="footer-col">
+                <h4 class="lang-pt">Reservas</h4><h4 class="lang-en">Reservations</h4>
+                <p>+351 219 292 123</p>
+            </div>
+            <div class="footer-col">
+                <h4 class="lang-pt">Horário</h4><h4 class="lang-en">Hours</h4>
+                <p>12:00 — 23:00</p>
+            </div>
+        </div>
+        <div class="social-links">
+            <a href="https://www.instagram.com/buzio1959" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/buzio1959" target="_blank">Facebook</a>
+        </div>
+    </footer>
+
+    <script>
+        function setLang(lang) {
+            const body = document.body;
+            const btnPt = document.getElementById('btn-pt');
+            const btnEn = document.getElementById('btn-en');
+            
+            if (lang === 'en') {
+                body.classList.remove('mode-pt');
+                body.classList.add('mode-en');
+                btnEn.classList.add('active');
+                btnPt.classList.remove('active');
+            } else {
+                body.classList.remove('mode-en');
+                body.classList.add('mode-pt');
+                btnPt.classList.add('active');
+                btnEn.classList.remove('active');
+            }
+        }
+        
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 80) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        const revealSections = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('section').forEach(s => revealSections.observe(s));
+    </script>
+</body>
+</html>
