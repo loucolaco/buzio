@@ -19,125 +19,329 @@
             --font-display: 'Playfair Display', serif;
             --font-sub: 'Cormorant Garamond', serif;
             --font-body: 'DM Sans', sans-serif;
-            --transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-canvas); color: var(--text-dark); font-family: var(--font-body); line-height: 1.8; overflow-x: hidden; }
+        body { 
+            background-color: var(--bg-canvas); 
+            color: var(--text-dark); 
+            font-family: var(--font-body); 
+            line-height: 1.8; 
+            overflow-x: hidden; 
+        }
 
+        /* TEXTURIZAÇÃO DE FUNDO */
         body::after {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0.03; pointer-events: none; z-index: 10000;
+            opacity: 0.04; pointer-events: none; z-index: 10000;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        a { text-decoration: none; color: inherit; transition: 0.4s; }
 
-        /* Multi-language Logic */
+        /* MULTI-LANGUAGE SYSTEM */
         .lang-en { display: none !important; }
         body.mode-en .lang-pt { display: none !important; }
         body.mode-en .lang-en { display: block !important; }
         body.mode-en span.lang-en, body.mode-en a.lang-en, body.mode-en strong.lang-en { display: inline-block !important; }
         
         .lang-tool {
-            position: fixed; bottom: 20px; left: 20px; z-index: 2000;
+            position: fixed; bottom: 30px; left: 30px; z-index: 2000;
             background: var(--primary); border: 1px solid var(--secondary);
-            display: flex; gap: 5px; padding: 5px; border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex; gap: 5px; padding: 6px; border-radius: 50px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
         .lang-btn {
             background: none; border: none; color: var(--white); font-family: var(--font-body);
-            font-size: 0.7rem; letter-spacing: 0.1rem; padding: 8px 15px; cursor: pointer;
-            border-radius: 20px; transition: 0.3s; text-transform: uppercase;
+            font-size: 0.75rem; letter-spacing: 0.1rem; padding: 10px 18px; cursor: pointer;
+            border-radius: 25px; transition: 0.3s; text-transform: uppercase;
         }
         .lang-btn.active { background: var(--secondary); color: var(--primary); font-weight: 700; }
 
-        /* Navigation Responsive */
+        /* NAVEGAÇÃO */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 2rem 5%;
+            position: fixed; top: 0; width: 100%; padding: 3rem 5%;
             display: flex; justify-content: space-between; align-items: center;
             z-index: 1000; transition: var(--transition);
         }
-        nav.scrolled { background: rgba(15, 26, 28, 0.98); padding: 1rem 5%; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(177, 148, 95, 0.2); }
-        .logo-box { display: flex; flex-direction: column; }
-        .logo { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.2rem); letter-spacing: 0.4rem; color: var(--secondary); font-weight: 700; line-height: 1; }
-        .logo-tagline { font-family: var(--font-sub); font-size: 0.65rem; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.2rem; margin-top: 0.4rem; }
+        nav.scrolled { 
+            background: rgba(15, 26, 28, 0.98); 
+            padding: 1.2rem 5%; 
+            backdrop-filter: blur(15px); 
+            border-bottom: 1px solid rgba(177, 148, 95, 0.2); 
+        }
         
-        .nav-links { display: flex; gap: 2.5rem; align-items: center; text-transform: uppercase; font-size: 0.7rem; color: var(--white); letter-spacing: 0.15rem; }
-        .nav-links a:hover { color: var(--secondary); }
-        .btn-call-nav { border: 1px solid var(--secondary); padding: 0.7rem 1.5rem; color: var(--secondary); font-size: 0.7rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.15rem; }
+        .logo-box { display: flex; flex-direction: column; }
+        .logo { 
+            font-family: var(--font-display); 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            letter-spacing: 0.5rem; 
+            color: var(--secondary); 
+            font-weight: 700; 
+            line-height: 1; 
+            text-transform: uppercase;
+        }
+        .logo-tagline { 
+            font-family: var(--font-sub); 
+            font-size: 0.7rem; 
+            text-transform: uppercase; 
+            color: var(--secondary); 
+            letter-spacing: 0.3rem; 
+            margin-top: 0.5rem; 
+            opacity: 0.8;
+        }
+        
+        .nav-links { display: flex; gap: 3.5rem; align-items: center; text-transform: uppercase; font-size: 0.75rem; color: var(--white); letter-spacing: 0.2rem; }
+        .nav-links a { position: relative; }
+        .nav-links a::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px; background: var(--secondary); transition: 0.4s; }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .btn-call-nav { 
+            border: 1px solid var(--secondary); 
+            padding: 0.9rem 2rem; 
+            color: var(--secondary); 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            font-weight: 600; 
+            letter-spacing: 0.2rem; 
+        }
         .btn-call-nav:hover { background: var(--secondary); color: var(--primary); }
 
-        /* Universal Section Sizing */
-        section { padding: clamp(5rem, 10vh, 10rem) 7%; opacity: 0; transform: translateY(40px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* SECTIONS & TITLES */
+        section { padding: clamp(6rem, 15vh, 12rem) 8%; opacity: 0; transform: translateY(50px); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
         section.reveal { opacity: 1; transform: translateY(0); }
-        .label { font-size: 0.75rem; letter-spacing: 0.4rem; text-transform: uppercase; color: var(--secondary); margin-bottom: 2rem; display: block; font-weight: 700; text-align: center;}
+        
+        .label { 
+            font-size: 0.8rem; 
+            letter-spacing: 0.6rem; 
+            text-transform: uppercase; 
+            color: var(--secondary); 
+            margin-bottom: 3rem; 
+            display: block; 
+            font-weight: 700; 
+            text-align: center;
+        }
 
-        /* Hero Responsive */
+        /* HERO */
         #hero {
             height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;
-            color: var(--white); position: relative; overflow: hidden; background: #0F1A1C; padding: 0;
+            color: var(--white); position: relative; overflow: hidden; padding: 0;
         }
-        #hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 1; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.5; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(0deg, rgba(15,26,28,0.85) 0%, rgba(15,26,28,0.3) 100%); z-index: 2; }
-        .hero-content { position: relative; z-index: 3; padding: 0 10%; width: 100%; }
-        #hero h1 { font-size: clamp(2.5rem, 8vw, 6rem); line-height: 1.1; margin-bottom: 2rem; font-family: var(--font-display); }
-        .hero-tag { font-family: var(--font-sub); font-style: italic; color: var(--secondary); font-size: clamp(1.2rem, 3vw, 2rem); margin-bottom: 1rem; display: block; }
-        #hero p { font-family: var(--font-sub); font-size: clamp(1.1rem, 2vw, 1.6rem); max-width: 800px; margin: 0 auto; font-style: italic; opacity: 0.9; }
+        #hero video { 
+            position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; 
+            width: auto; height: auto; z-index: 1; transform: translate(-50%, -50%); 
+            object-fit: cover; opacity: 0.5; 
+        }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(0deg, rgba(15,26,28,0.95) 0%, rgba(15,26,28,0.4) 100%); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; padding: 0 10%; max-width: 1400px; }
+        #hero h1 { font-size: clamp(3.5rem, 10vw, 8rem); line-height: 1; margin-bottom: 2.5rem; font-family: var(--font-display); font-weight: 700; }
+        .hero-tag { font-family: var(--font-sub); font-style: italic; color: var(--secondary); font-size: clamp(1.5rem, 3.5vw, 2.5rem); margin-bottom: 1.5rem; display: block; }
+        #hero p { font-family: var(--font-sub); font-size: clamp(1.3rem, 2.5vw, 2rem); max-width: 900px; margin: 0 auto; font-style: italic; opacity: 0.95; }
 
-        /* Universal Grid */
-        .universal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: center; }
+        /* GRIDS & LAYOUT */
+        .universal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 6rem; align-items: center; }
 
-        /* Legacy section specific */
-        .legacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(3rem, 5vw, 6rem); align-items: center; }
+        .img-frame { 
+            position: relative; width: 100%; overflow: hidden; 
+            border: 1px solid rgba(177, 148, 95, 0.3);
+            aspect-ratio: 4/5;
+        }
+        .img-frame img { width: 100%; height: 100%; object-fit: cover; transition: 2s ease; }
+        .img-frame:hover img { transform: scale(1.08); }
 
-        /* UNIVERSAL MENU LAYOUT */
-        .menu-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); gap: 4rem 6rem; width: 100%; }
-        .menu-category h3 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--primary); margin-bottom: 2.5rem; font-family: var(--font-display); border-bottom: 1px solid rgba(177, 148, 95, 0.3); padding-bottom: 0.5rem; }
-        .menu-item { margin-bottom: 2rem; position: relative; }
-        .menu-header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-        .menu-title { font-family: var(--font-sub); font-size: 1.4rem; font-weight: 600; color: var(--primary); }
-        .menu-dots { flex-grow: 1; border-bottom: 1px dotted rgba(15, 26, 28, 0.2); }
-        .menu-desc { font-size: 0.95rem; font-style: italic; color: #666; margin-top: 0.3rem; display: block; max-width: 90%; }
+        /* LEGACY & STORY TEXT */
+        .story-text h2 { 
+            font-size: clamp(2.5rem, 5vw, 4.5rem); 
+            font-family: var(--font-display); 
+            line-height: 1.1; 
+            margin-bottom: 2.5rem; 
+            color: var(--primary);
+        }
+        .story-text p { font-size: 1.2rem; color: #444; margin-bottom: 2rem; max-width: 600px; text-align: justify; }
+
+        /* DARK SECTION (Legacy) */
+        .dark-section { background-color: var(--primary); color: var(--white); }
+        .dark-section .story-text h2 { color: var(--secondary); }
+        .dark-section .story-text p { color: rgba(255,255,255,0.8); }
+
+        /* MENU UNIVERSAL UPGRADE */
+        .menu-wrapper { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 500px), 1fr)); 
+            gap: 5rem 7rem; 
+            width: 100%; 
+        }
         
-        .menu-visual-break { width: 100%; aspect-ratio: 16/9; background: #F2EDE4; margin: 2rem 0; overflow: hidden; border: 1px solid rgba(177, 148, 95, 0.1); }
-        .menu-visual-break img { width: 100%; height: 100%; object-fit: cover; }
+        .menu-category { margin-bottom: 2rem; }
+        .menu-category h3 { 
+            font-size: clamp(2.2rem, 4vw, 3rem); 
+            color: var(--primary); 
+            margin-bottom: 3.5rem; 
+            font-family: var(--font-display); 
+            border-bottom: 1px solid rgba(177, 148, 95, 0.2); 
+            padding-bottom: 1rem;
+            position: relative;
+        }
+        
+        .menu-item { margin-bottom: 2.5rem; transition: 0.3s; }
+        .menu-header { display: flex; justify-content: space-between; align-items: baseline; gap: 15px; }
+        .menu-title { font-family: var(--font-sub); font-size: clamp(1.4rem, 2vw, 1.8rem); font-weight: 600; color: var(--primary); }
+        .menu-dots { flex-grow: 1; border-bottom: 1px dotted rgba(15, 26, 28, 0.3); }
+        .menu-price { font-family: var(--font-body); font-weight: 500; color: var(--secondary); font-size: 1.1rem; }
+        .menu-desc { font-size: 1rem; font-style: italic; color: #666; margin-top: 0.5rem; display: block; max-width: 90%; line-height: 1.5; }
 
-        /* Responsive Highlight Card */
+        /* VISUAL PAUSES (Placeholders) */
+        .menu-visual-break { 
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #F2EDE4; 
+            margin: 3rem 0; 
+            overflow: hidden; 
+            border: 1px solid rgba(177, 148, 95, 0.1); 
+        }
+        .menu-visual-break img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 1.5s; }
+        .menu-item:hover .menu-visual-break img { transform: scale(1.05); }
+
+        /* HIGHLIGHT CARD (Especialidades) */
         .highlight-card { 
-            background: var(--primary); color: var(--white); padding: clamp(2.5rem, 5vw, 5rem); 
-            grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 3rem; align-items: center; margin: 4rem 0; border: 1px solid var(--secondary);
+            background: var(--primary); 
+            color: var(--white); 
+            padding: clamp(3rem, 7vw, 6rem); 
+            grid-column: 1 / -1; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 5rem; 
+            align-items: center; 
+            margin: 6rem 0; 
+            border: 1px solid var(--secondary);
+            position: relative;
         }
-        .highlight-card h3 { color: var(--secondary); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; font-family: var(--font-display); }
-        .peixe-dia-box { border: 1px solid rgba(177, 148, 95, 0.3); padding: 3rem 1.5rem; text-align: center; }
+        .highlight-card h3 { 
+            color: var(--secondary); 
+            font-size: clamp(2.5rem, 5vw, 3.5rem); 
+            margin-bottom: 2rem; 
+            font-family: var(--font-display); 
+        }
+        .highlight-card p { font-size: 1.2rem; font-family: var(--font-sub); font-style: italic; opacity: 0.9; margin-bottom: 2rem; }
 
-        /* Viveiros Grid */
-        .viv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 4rem; }
-        .viv-item { padding: 3rem 1.5rem; border: 1px solid rgba(177, 148, 95, 0.1); text-align: center; }
-        .viv-item h3 { color: var(--secondary); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem; }
+        .peixe-dia-box { 
+            border: 1px solid rgba(177, 148, 95, 0.5); 
+            padding: 4rem 2.5rem; 
+            text-align: center;
+            background: rgba(255,255,255,0.02);
+        }
+        .peixe-dia-box h4 { font-family: var(--font-display); font-size: 2.2rem; color: var(--secondary); margin-bottom: 2rem; }
+        .peixe-dia-list { list-style: none; font-size: 1.1rem; opacity: 0.9; letter-spacing: 0.1rem; line-height: 2.5; }
 
+        /* VIVEIROS & QUALITY */
+        .viv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-top: 6rem; }
+        .viv-item { 
+            padding: 5rem 2.5rem; 
+            border: 1px solid rgba(177, 148, 95, 0.15); 
+            text-align: center; 
+            background: rgba(255,255,255,0.4);
+            transition: 0.5s;
+        }
+        .viv-item:hover { border-color: var(--secondary); transform: translateY(-10px); background: var(--white); }
+        .viv-item h3 { color: var(--secondary); font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem; }
+        .viv-item p { font-size: 1rem; opacity: 0.8; }
+
+        /* QUOTE / OCEAN VIEW */
         .ocean-view { 
-            height: 60vh; background: linear-gradient(rgba(12, 21, 23, 0.6), rgba(12, 21, 23, 0.6)), url('praia.jpg');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            display: flex; align-items: center; justify-content: center; 
-            color: var(--secondary); font-family: var(--font-sub); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.5rem); 
-            text-align: center; padding: 0 10%;
+            height: 70vh; 
+            background: linear-gradient(rgba(12, 21, 23, 0.65), rgba(12, 21, 23, 0.65)), url('praia.jpg');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: var(--secondary); 
+            font-family: var(--font-sub); 
+            font-style: italic; 
+            font-size: clamp(1.8rem, 5vw, 3.5rem); 
+            text-align: center; 
+            padding: 0 15%;
+            line-height: 1.4;
         }
 
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto; border-top: 1px solid rgba(177, 148, 95, 0.1); padding-top: 4rem; }
-        .tel-link { font-family: var(--font-display); font-size: clamp(2rem, 7vw, 4rem); color: var(--primary); display: block; margin: 1.5rem 0; font-weight: 700; }
-        .img-frame { width: 100%; overflow: hidden; border: 1px solid rgba(177, 148, 95, 0.2); }
-        .img-frame img { width: 100%; height: 100%; object-fit: cover; }
+        /* LOCATION & CONTACTS */
+        .location-info h2 { font-family: var(--font-display); font-size: 3rem; color: var(--primary); margin-bottom: 2.5rem; }
+        .location-info p { font-size: 1.2rem; margin-bottom: 1rem; color: #444; }
+        .tel-link { 
+            font-family: var(--font-display); 
+            font-size: clamp(2.5rem, 8vw, 5rem); 
+            color: var(--primary); 
+            display: block; 
+            margin: 2.5rem 0; 
+            font-weight: 700; 
+            transition: 0.4s;
+        }
+        .tel-link:hover { color: var(--secondary); }
+
+        /* RODAPÉ (Restaurado e Corrigido) */
+        footer { 
+            background: var(--primary); 
+            color: var(--white); 
+            padding: 10rem 8% 5rem; 
+            text-align: center;
+            border-top: 1px solid var(--secondary);
+        }
+        .footer-logo { 
+            font-family: var(--font-display); 
+            font-size: clamp(3.5rem, 10vw, 7rem); 
+            color: var(--secondary); 
+            letter-spacing: 1.5rem; 
+            margin-bottom: 6rem; 
+            display: block; 
+            font-weight: 700; 
+            text-transform: uppercase;
+        }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 5rem; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            text-align: center;
+        }
+        .footer-col h4 { 
+            color: var(--secondary); 
+            text-transform: uppercase; 
+            font-size: 0.9rem; 
+            letter-spacing: 0.3rem; 
+            margin-bottom: 2rem; 
+            font-weight: 700;
+        }
+        .footer-col p { opacity: 0.8; font-family: var(--font-sub); font-size: 1.3rem; line-height: 1.8; }
+        .footer-bottom { 
+            margin-top: 8rem; 
+            padding-top: 4rem; 
+            border-top: 1px solid rgba(177, 148, 95, 0.1); 
+            font-size: 0.8rem; 
+            opacity: 0.4; 
+            letter-spacing: 0.2rem; 
+            text-transform: uppercase;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            nav { padding: 2rem 5%; }
+            .nav-links { gap: 2rem; }
+        }
 
         @media (max-width: 768px) {
-            nav { padding: 1.2rem 5%; }
+            nav { padding: 1.5rem 5%; }
             .nav-links, .btn-call-nav { display: none; }
-            section { padding: 5rem 6%; }
-            .logo-tagline { font-size: 0.55rem; }
-            .ocean-view { background-attachment: scroll; }
-            .menu-wrapper { gap: 3rem; }
+            section { padding: 6rem 6%; }
+            .universal-grid { grid-template-columns: 1fr; gap: 4rem; }
+            .logo { font-size: 1.8rem; }
+            .logo-tagline { font-size: 0.6rem; }
+            .ocean-view { background-attachment: scroll; height: 50vh; padding: 0 8%; }
+            .footer-logo { letter-spacing: 0.5rem; }
         }
     </style>
 </head>
@@ -156,12 +360,12 @@
         </div>
         <div class="nav-links">
             <a href="#history" class="lang-pt">História</a><a href="#history" class="lang-en">History</a>
-            <a href="#legacy" class="lang-pt">Herança</a><a href="#legacy" class="lang-en">Legacy</a>
+            <a href="#legacy" class="lang-pt">Legado</a><a href="#legacy" class="lang-en">Legacy</a>
             <a href="#menu" class="lang-pt">A Carta</a><a href="#menu" class="lang-en">Menu</a>
-            <a href="#location" class="lang-pt">Localização</a><a href="#location" class="lang-en">Location</a>
+            <a href="#location" class="lang-pt">Onde Estamos</a><a href="#location" class="lang-en">Location</a>
         </div>
-        <a href="tel:+351219292123" class="btn-call-nav lang-pt">Reservar</a>
-        <a href="tel:+351219292123" class="btn-call-nav lang-en">Reserve</a>
+        <a href="tel:+351219292123" class="btn-call-nav lang-pt">Reservar Mesa</a>
+        <a href="tel:+351219292123" class="btn-call-nav lang-en">Book a Table</a>
     </nav>
 
     <section id="hero">
@@ -170,8 +374,8 @@
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <span class="hero-tag lang-pt">Praia das Maçãs · Desde 1959</span>
-            <span class="hero-tag lang-en">Praia das Maçãs · Since 1959</span>
+            <span class="hero-tag lang-pt">Praia das Maçãs · Sintra</span>
+            <span class="hero-tag lang-en">Maçãs Beach · Sintra</span>
             <h1 class="lang-pt">A Alma do Mar,<br>Servida com Tradição.</h1>
             <h1 class="lang-en">The Soul of the Sea,<br>Served with Tradition.</h1>
             <p class="lang-pt">Onde o tempo abranda e o Atlântico se senta à mesa.</p>
@@ -182,127 +386,155 @@
     <section id="history">
         <div class="universal-grid">
             <div class="story-text">
-                <span class="label lang-pt" style="text-align: left;">Crónica de Sabores</span>
-                <span class="label lang-en" style="text-align: left;">A Chronicle of Flavors</span>
-                <h2 class="lang-pt" style="font-size: clamp(2.2rem, 5vw, 3.5rem); font-family: var(--font-display); line-height: 1.1; margin-bottom: 2rem;">Sessenta Anos de Paixão Pelo Mar.</h2>
-                <h2 class="lang-en" style="font-size: clamp(2.2rem, 5vw, 3.5rem); font-family: var(--font-display); line-height: 1.1; margin-bottom: 2rem;">Sixty Years of Passion for the Sea.</h2>
-                <p class="lang-pt">O Buzio não é apenas um restaurante; é um marco vivo na Praia das Maçãs. Desde 1959, as nossas portas abrem-se para receber quem procura a pureza dos sabores do Atlântico, num compromisso inabalável com a frescura e o rigor.</p>
-                <p class="lang-en">Buzio is not just a restaurant; it's a living landmark in Praia das Maçãs. Since 1959, our doors have opened to welcome those seeking the purity of Atlantic flavors, with an unwavering commitment to freshness and excellence.</p>
+                <span class="label lang-pt" style="text-align: left;">Sessenta Anos de História</span>
+                <span class="label lang-en" style="text-align: left;">Sixty Years of History</span>
+                <h2 class="lang-pt">Onde a Frescura é Sagrada.</h2>
+                <h2 class="lang-en">Where Freshness is Sacred.</h2>
+                <p class="lang-pt">Fundado em 1959, o Buzio tornou-se um santuário para os amantes do mar. O que começou como um pequeno refúgio na Praia das Maçãs, transformou-se num destino gastronómico onde o rigor e a hospitalidade são passados de geração em geração.</p>
+                <p class="lang-en">Founded in 1959, Buzio has become a sanctuary for sea lovers. What started as a small refuge at Praia das Maçãs, has transformed into a gastronomic destination where rigor and hospitality are passed down through generations.</p>
+                <p class="lang-pt">Aqui, cada prato conta uma história de respeito pelas marés e paixão pela cozinha clássica portuguesa.</p>
+                <p class="lang-en">Here, every dish tells a story of respect for the tides and passion for classic Portuguese cuisine.</p>
             </div>
-            <div class="img-frame" style="aspect-ratio: 4/3;">
-                <img src="buzio1.jpg" alt="História">
+            <div class="img-frame">
+                <img src="buzio1.jpg" alt="Interior do Restaurante">
             </div>
         </div>
     </section>
 
-    <section id="legacy" style="background: var(--primary); color: var(--white);">
-        <div class="legacy-grid">
-            <div class="img-frame" style="aspect-ratio: 1/1; border-color: var(--secondary);">
-                <img src="quatrogeracoes.jpg" alt="Quatro Gerações">
-            </div>
-            <div class="legacy-text">
+    <section id="legacy" class="dark-section">
+        <div class="universal-grid" style="direction: rtl;">
+            <div class="story-text" style="direction: ltr;">
                 <span class="label lang-pt" style="text-align: left; color: var(--secondary);">Herança Familiar</span>
                 <span class="label lang-en" style="text-align: left; color: var(--secondary);">Family Heritage</span>
-                <h2 class="lang-pt" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); color: var(--secondary); margin-bottom: 1.5rem;">Quatro Gerações, Uma Única Alma.</h2>
-                <h2 class="lang-en" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); color: var(--secondary); margin-bottom: 1.5rem;">Four Generations, One Single Soul.</h2>
-                <p class="lang-pt">A história do Buzio escreve-se em família. Ao longo de mais de meio século, o conhecimento sobre as marés e o segredo da cozinha foram transmitidos como um bem precioso.</p>
-                <p class="lang-en">The history of Buzio is written in family. Over more than half a century, knowledge of the tides and kitchen secrets have been passed down like a precious treasure.</p>
-                <p class="lang-pt" style="margin-top: 1rem; opacity: 0.8;">Hoje, a quarta geração assume o leme, preservando os métodos artesanais e o respeito absoluto pelo produto.</p>
-                <p class="lang-en" style="margin-top: 1rem; opacity: 0.8;">Today, the fourth generation takes the helm, preserving artisanal methods and absolute respect for the product.</p>
+                <h2 class="lang-pt">Quatro Gerações ao Leme.</h2>
+                <h2 class="lang-en">Four Generations at the Helm.</h2>
+                <p class="lang-pt">O Buzio é o reflexo de uma linhagem dedicada à excelência. Ao longo de mais de meio século, os segredos da escolha do melhor marisco e o ponto perfeito do peixe foram guardados e aperfeiçoados.</p>
+                <p class="lang-en">Buzio is the reflection of a lineage dedicated to excellence. Over more than half a century, the secrets of choosing the best seafood and the perfect cooking point for fish have been kept and perfected.</p>
+                <p class="lang-pt">Hoje, a quarta geração mantém viva a chama da tradição, honrando o passado enquanto abraça o futuro da gastronomia atlântica.</p>
+                <p class="lang-en">Today, the fourth generation keeps the flame of tradition alive, honoring the past while embracing the future of Atlantic gastronomy.</p>
+            </div>
+            <div class="img-frame" style="border-color: var(--secondary); aspect-ratio: 1/1;">
+                <img src="quatrogeracoes.jpg" alt="Família Buzio">
             </div>
         </div>
     </section>
 
     <section id="menu">
-        <span class="label lang-pt">A Nossa Carta Integral</span>
-        <span class="label lang-en">Our Full Menu</span>
+        <span class="label lang-pt">A Nossa Carta</span>
+        <span class="label lang-en">Our Menu</span>
         
         <div class="menu-wrapper">
             <div class="menu-category">
                 <h3 class="lang-pt">Entradas de Mar</h3><h3 class="lang-en">Sea Starters</h3>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Amêijoas à Bulhão Pato</span><span class="menu-title lang-en">Clams "Bulhão Pato" Style</span><div class="menu-dots"></div></div>
-                    <span class="menu-desc lang-pt">Azeite virgem, alho, coentros frescos e limão.</span><span class="menu-desc lang-en">Virgin olive oil, garlic, fresh coriander and lemon.</span>
+                    <span class="menu-desc lang-pt">Azeite virgem, muito alho, coentros frescos e o toque final de limão.</span>
+                    <span class="menu-desc lang-en">Virgin olive oil, plenty of garlic, fresh coriander, and a final touch of lemon.</span>
                 </div>
+                <div class="menu-visual-break"><img src="entrada1.jpg" alt="Entrada"></div>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Gambas à Aguillo</span><span class="menu-title lang-en">Garlic Prawns</span><div class="menu-dots"></div></div>
-                    <span class="menu-desc lang-pt">Salteadas com alho e um leve toque picante.</span><span class="menu-desc lang-en">Sautéed with garlic and a light spicy touch.</span>
+                    <span class="menu-desc lang-pt">Salteadas com alho laminado, malagueta e azeite de primeira.</span>
+                    <span class="menu-desc lang-en">Sautéed with sliced garlic, chili, and premium olive oil.</span>
                 </div>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Ostras Naturais</span><span class="menu-title lang-en">Natural Oysters</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Provenientes das melhores águas, servidas simples e frescas.</span>
+                    <span class="menu-desc lang-en">From the finest waters, served simple and fresh.</span>
                 </div>
             </div>
 
             <div class="menu-category">
                 <h3 class="lang-pt">Mariscos Vivos</h3><h3 class="lang-en">Live Shellfish</h3>
-                <div class="menu-visual-break"><img src="viveiros.jpg" alt="Viveiros"></div>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Sapateira Recheada</span><span class="menu-title lang-en">Stuffed Edible Crab</span><div class="menu-dots"></div></div>
-                    <span class="menu-desc lang-pt">A receita histórica e artesanal da casa.</span><span class="menu-desc lang-en">The house's historical and artisanal recipe.</span>
+                    <span class="menu-desc lang-pt">A nossa receita histórica, preparada artesanalmente na casa.</span>
+                    <span class="menu-desc lang-en">Our historic recipe, handcrafted daily in-house.</span>
                 </div>
-                <div class="menu-item"><div class="menu-header"><span class="menu-title lang-pt">Bruxas de Cascais</span><span class="menu-title lang-en">Velvet Swimmer Crabs</span><div class="menu-dots"></div></div></div>
-                <div class="menu-item"><div class="menu-header"><span class="menu-title lang-pt">Percebes da Nossa Costa</span><span class="menu-title lang-en">Goose Barnacles</span><div class="menu-dots"></div></div></div>
+                <div class="menu-visual-break"><img src="viveiros.jpg" alt="Viveiros"></div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Bruxas de Cascais</span><span class="menu-title lang-en">Velvet Swimmer Crabs</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Pequenas iguarias da nossa costa, cozidas com sal marinho.</span>
+                    <span class="menu-desc lang-en">Small delicacies from our coast, boiled with sea salt.</span>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header"><span class="menu-title lang-pt">Lavagante Vivo</span><span class="menu-title lang-en">Live European Lobster</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Selecionado diretamente dos nossos aquários.</span>
+                    <span class="menu-desc lang-en">Selected directly from our tanks.</span>
+                </div>
             </div>
 
             <div class="highlight-card">
                 <div>
-                    <span class="label lang-pt" style="color: var(--secondary); text-align: left; margin-bottom: 1rem;">Assinatura</span><span class="label lang-en" style="color: var(--secondary); text-align: left; margin-bottom: 1rem;">Signature</span>
-                    <h3 class="lang-pt">Especialidades</h3><h3 class="lang-en">Specialties</h3>
-                    <div class="menu-item">
-                        <span class="menu-title lang-pt" style="color: var(--secondary); font-size: 1.8rem; display: block;">Frigideira do Chefe</span>
-                        <span class="menu-title lang-en" style="color: var(--secondary); font-size: 1.8rem; display: block;">Chef's Skillet</span>
-                        <p class="lang-pt" style="opacity: 0.8; font-size: 0.95rem;">Seleção premium de mariscos salteados com os segredos da herança Buzio.</p>
-                        <p class="lang-en" style="opacity: 0.8; font-size: 0.95rem;">Premium selection of sautéed shellfish with the secrets of Buzio heritage.</p>
-                    </div>
-                    <div class="menu-item"><span class="menu-title lang-pt">Arroz de Marisco Rico</span><span class="menu-title lang-en">Rich Seafood Rice</span></div>
+                    <span class="label lang-pt" style="color: var(--secondary); text-align: left; margin-bottom: 1rem;">O Segredo da Casa</span>
+                    <span class="label lang-en" style="color: var(--secondary); text-align: left; margin-bottom: 1rem;">House Secret</span>
+                    <h3 class="lang-pt">Frigideira do Chefe</h3>
+                    <h3 class="lang-en">Chef's Skillet</h3>
+                    <p class="lang-pt">A nossa assinatura: Uma seleção premium de mariscos salteados, elevando os sabores do Atlântico a um novo patamar de sofisticação.</p>
+                    <p class="lang-en">Our signature: A premium selection of sautéed shellfish, elevating Atlantic flavors to a new level of sophistication.</p>
                 </div>
                 <div class="peixe-dia-box">
-                    <h4 class="lang-pt" style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--secondary);">Peixe do Dia</h4>
-                    <h4 class="lang-en" style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--secondary);">Fresh Fish</h4>
-                    <ul class="lang-pt" style="list-style: none; font-size: 1rem; opacity: 0.9;"><li>• Robalo Selvagem</li><li>• Linguado de Mar</li><li>• Dourada Real</li></ul>
-                    <ul class="lang-en" style="list-style: none; font-size: 1rem; opacity: 0.9;"><li>• Wild Sea Bass</li><li>• Sea Sole</li><li>• Royal Sea Bream</li></ul>
+                    <h4 class="lang-pt">Peixe do Dia</h4>
+                    <h4 class="lang-en">Catch of the Day</h4>
+                    <ul class="peixe-dia-list lang-pt">
+                        <li>Robalo Selvagem</li>
+                        <li>Linguado de Mar</li>
+                        <li>Dourada Real</li>
+                    </ul>
+                    <ul class="peixe-dia-list lang-en">
+                        <li>Wild Sea Bass</li>
+                        <li>Sea Sole</li>
+                        <li>Royal Sea Bream</li>
+                    </ul>
                 </div>
             </div>
 
             <div class="menu-category">
-                <h3 class="lang-pt">Doçaria</h3><h3 class="lang-en">Sweets</h3>
+                <h3 class="lang-pt">Doçaria d'Avó</h3><h3 class="lang-en">Grandma's Sweets</h3>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Tarte de Amêndoa Buzio</span><span class="menu-title lang-en">Buzio Almond Tart</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">A receita secreta que atravessa gerações.</span>
+                    <span class="menu-desc lang-en">The secret recipe passed through generations.</span>
                 </div>
+                <div class="menu-visual-break"><img src="sobremesa1.jpg" alt="Sobremesa"></div>
                 <div class="menu-item">
                     <div class="menu-header"><span class="menu-title lang-pt">Leite Creme Queimado</span><span class="menu-title lang-en">Burnt Custard</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">Queimado na hora com ferro quente, como manda a tradição.</span>
+                    <span class="menu-desc lang-en">Caramelized to order with a hot iron, as tradition dictates.</span>
                 </div>
             </div>
 
             <div class="menu-category">
-                <h3 class="lang-pt">Vinhos</h3><h3 class="lang-en">Wines</h3>
+                <h3 class="lang-pt">Vinhos de Colares</h3><h3 class="lang-en">Colares Wines</h3>
                 <div class="menu-item">
-                    <div class="menu-header"><span class="menu-title lang-pt">Vinhos de Colares</span><span class="menu-title lang-en">Colares Wines</span><div class="menu-dots"></div></div>
-                    <span class="menu-desc lang-pt">A raridade histórica dos vinhos de areia de Sintra.</span><span class="menu-desc lang-en">The historical rarity of Sintra's sand wines.</span>
+                    <div class="menu-header"><span class="menu-title lang-pt">Ramisco (Colares)</span><span class="menu-title lang-en">Ramisco (Colares)</span><div class="menu-dots"></div></div>
+                    <span class="menu-desc lang-pt">A raridade histórica dos vinhos de areia, o par perfeito para o nosso marisco.</span>
+                    <span class="menu-desc lang-en">The historical rarity of sand wines, the perfect pair for our seafood.</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="viveiros" style="background: var(--primary); color: var(--white);">
-        <span class="label lang-pt">Compromisso</span><span class="label lang-en">Commitment</span>
-        <h2 class="lang-pt" style="text-align: center; font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem);">Onde o Mar se Mantém Vivo.</h2>
-        <h2 class="lang-en" style="text-align: center; font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem);">Where the Sea Stays Alive.</h2>
+    <section id="viveiros" style="background: var(--bg-canvas);">
+        <span class="label lang-pt">Qualidade & Frescura</span>
+        <span class="label lang-en">Quality & Freshness</span>
+        <h2 class="lang-pt" style="text-align: center; font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 2rem;">O Mar no seu Estado Mais Puro.</h2>
+        <h2 class="lang-en" style="text-align: center; font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 2rem;">The Sea in its Purest State.</h2>
         <div class="viv-grid">
             <div class="viv-item">
-                <h3 class="lang-pt">Viveiros Próprios</h3><h3 class="lang-en">Own Tanks</h3>
-                <p class="lang-pt" style="font-size: 0.95rem; opacity: 0.8;">Garantia de frescura absoluta e seleção rigorosa nos nossos aquários.</p>
-                <p class="lang-en" style="font-size: 0.95rem; opacity: 0.8;">Guarantee of absolute freshness and rigorous selection in our tanks.</p>
+                <h3 class="lang-pt">Viveiros Próprios</h3><h3 class="lang-en">Private Tanks</h3>
+                <p class="lang-pt">Garantimos frescura absoluta através dos nossos próprios sistemas de água salgada.</p>
+                <p class="lang-en">We ensure absolute freshness through our own saltwater tank systems.</p>
             </div>
             <div class="viv-item">
                 <h3 class="lang-pt">Costa Portuguesa</h3><h3 class="lang-en">Portuguese Coast</h3>
-                <p class="lang-pt" style="font-size: 0.95rem; opacity: 0.8;">Peixe selvagem e mariscos capturados por métodos sustentáveis.</p>
-                <p class="lang-en" style="font-size: 0.95rem; opacity: 0.8;">Wild fish and shellfish caught using sustainable methods.</p>
+                <p class="lang-pt">Selecionamos apenas peixe selvagem e marisco capturado de forma sustentável.</p>
+                <p class="lang-en">We select only wild fish and sustainably caught shellfish.</p>
             </div>
             <div class="viv-item">
-                <h3 class="lang-pt">Legado Vivo</h3><h3 class="lang-en">Living Legacy</h3>
-                <p class="lang-pt" style="font-size: 0.95rem; opacity: 0.8;">Mais de 65 anos de dedicação contínua à Praia das Maçãs.</p>
-                <p class="lang-en" style="font-size: 0.95rem; opacity: 0.8;">Over 65 years of continuous dedication to Praia das Maçãs.</p>
+                <h3 class="lang-pt">Rigor de Seleção</h3><h3 class="lang-en">Selection Rigor</h3>
+                <p class="lang-pt">Cada exemplar é inspecionado diariamente pela nossa equipa de especialistas.</p>
+                <p class="lang-en">Each specimen is inspected daily by our team of specialists.</p>
             </div>
         </div>
     </section>
@@ -312,78 +544,100 @@
 
     <section id="location">
         <div class="universal-grid">
-            <div class="location-text">
+            <div class="location-info">
                 <span class="label lang-pt" style="text-align: left;">Geolocalização</span>
-                <span class="label lang-en" style="text-align: left;">Find Us</span>
-                <h2 class="lang-pt" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem;">Na Orla do Atlântico</h2>
-                <h2 class="lang-en" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem;">On the Atlantic Rim</h2>
-                <p>Av. Eugène Levy 56, 2705-306 Colares<br>Praia das Maçãs, Sintra</p>
+                <span class="label lang-en" style="text-align: left;">Location</span>
+                <h2 class="lang-pt">Encontre-nos no Paraíso.</h2>
+                <h2 class="lang-en">Find us in Paradise.</h2>
+                <p>Av. Eugène Levy 56, 2705-306 Colares</p>
+                <p>Praia das Maçãs, Sintra — Portugal</p>
                 <br>
-                <p class="lang-pt"><strong>Aberto todos os dias:</strong> 12:00 — 23:00</p>
-                <p class="lang-en"><strong>Open every day:</strong> 12:00 PM — 11:00 PM</p>
+                <p class="lang-pt"><strong>Horário:</strong> Aberto todos os dias, das 12:00 às 23:00</p>
+                <p class="lang-en"><strong>Hours:</strong> Open every day, from 12:00 PM to 11:00 PM</p>
                 <br>
-                <a href="https://maps.app.goo.gl/YourMapLink" target="_blank" class="btn-call-nav lang-pt" style="background: var(--primary); color: var(--secondary);">Como Chegar</a>
-                <a href="https://maps.app.goo.gl/YourMapLink" target="_blank" class="btn-call-nav lang-en" style="background: var(--primary); color: var(--secondary);">Directions</a>
+                <a href="http://googleusercontent.com/maps.google.com/6" target="_blank" class="btn-call-nav lang-pt" style="background: var(--primary); color: var(--secondary);">Como Chegar</a>
+                <a href="http://googleusercontent.com/maps.google.com/6" target="_blank" class="btn-call-nav lang-en" style="background: var(--primary); color: var(--secondary);">Get Directions</a>
             </div>
-            <div class="img-frame" style="border: 1px solid var(--secondary);">
-                <img src="maps.jpg" alt="Mapa">
+            <div class="img-frame" style="border-color: var(--secondary); aspect-ratio: 16/9;">
+                <img src="maps.jpg" alt="Mapa de Localização">
             </div>
         </div>
     </section>
 
-    <section id="booking" style="text-align: center;">
-        <h2 class="lang-pt">Contactos & Reservas</h2><h2 class="lang-en">Contacts & Reservations</h2>
+    <section id="booking" style="text-align: center; background: var(--white);">
+        <h2 class="lang-pt" style="font-family: var(--font-display); font-size: 3rem;">A sua mesa está à espera.</h2>
+        <h2 class="lang-en" style="font-family: var(--font-display); font-size: 3rem;">Your table is waiting.</h2>
         <a href="tel:+351219292123" class="tel-link">+351 219 292 123</a>
-        <p style="letter-spacing: 0.1rem; opacity: 0.7;">geral@buzio.pt</p>
+        <p style="letter-spacing: 0.2rem; opacity: 0.6; text-transform: uppercase; font-size: 0.9rem;">geral@buzio.pt</p>
     </section>
 
     <footer>
         <span class="footer-logo">BUZIO</span>
         <div class="footer-grid">
             <div class="footer-col">
-                <h4 class="lang-pt">Sintra</h4><h4 class="lang-en">Sintra</h4>
-                <p>Av. Eugène Levy 56</p>
+                <h4 class="lang-pt">Localização</h4><h4 class="lang-en">Location</h4>
+                <p>Av. Eugène Levy 56<br>2705-306 Colares<br>Sintra, Portugal</p>
             </div>
             <div class="footer-col">
                 <h4 class="lang-pt">Reservas</h4><h4 class="lang-en">Bookings</h4>
-                <p>+351 219 292 123</p>
+                <p>+351 219 292 123<br>geral@buzio.pt</p>
             </div>
             <div class="footer-col">
-                <h4 class="lang-pt">Social</h4><h4 class="lang-en">Social</h4>
-                <p>Instagram / Facebook</p>
+                <h4 class="lang-pt">Siga-nos</h4><h4 class="lang-en">Follow us</h4>
+                <p>Instagram / Facebook<br>@restaurante.buzio</p>
             </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Restaurante Buzio. All rights reserved. <br>
+            <span class="lang-pt">Tradição de Mar desde 1959.</span>
+            <span class="lang-en">Sea Tradition since 1959.</span>
         </div>
     </footer>
 
     <script>
+        // Language Switcher
         function setLang(lang) {
             const body = document.body;
             const btnPt = document.getElementById('btn-pt');
             const btnEn = document.getElementById('btn-en');
+            
             if (lang === 'en') {
                 body.classList.add('mode-en');
                 btnEn.classList.add('active');
                 btnPt.classList.remove('active');
             } else {
                 body.classList.remove('mode-en');
-                body.classList.add('mode-pt');
                 btnPt.classList.add('active');
                 btnEn.classList.remove('active');
             }
         }
         
+        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
-            if (window.scrollY > 80) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
         });
 
-        const revealSections = new IntersectionObserver((entries) => {
+        // Intersection Observer for Reveal
+        const revealOptions = {
+            threshold: 0.15
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('reveal');
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
             });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('section').forEach(s => revealSections.observe(s));
+        }, revealOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            revealObserver.observe(section);
+        });
     </script>
 </body>
 </html>
